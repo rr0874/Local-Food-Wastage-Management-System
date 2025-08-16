@@ -1,9 +1,11 @@
 # ---------- app.py ----------
+import streamlit as st
 import pandas as pd
 import sqlite3
 import plotly.express as px
 
 st.set_page_config(page_title="Local Food Wastage", page_icon="🍽", layout="wide")
+
 
 @st.cache_resource
 def get_conn():
@@ -277,3 +279,4 @@ with tabs[3]:
             conn.commit()
             st.success("Claim recorded.")
 # ---------- end app.py ----------
+
