@@ -5,6 +5,25 @@ import sqlite3
 import plotly.express as px
 
 st.set_page_config(page_title="Local Food Wastage", page_icon="🍽", layout="wide")
+import sqlite3
+import pandas as pd
+
+# Connect to SQLite
+conn = sqlite3.connect("food_wastage.db")
+
+# Load CSV files
+providers_df = pd.read_csv("providers_data.csv")
+receivers_df = pd.read_csv("receivers_data.csv")
+food_df = pd.read_csv("food_listings_data.csv")
+claims_df = pd.read_csv("claims_data.csv")
+
+# Save to SQL tables (overwrite each run)
+providers_df.to_sql("providers", conn, if_exists="replace", index=False)
+receivers_df.to_sql("receivers", conn, if_exists="replace", index=False)
+food_df.to_sql("food_listings", conn, if_exists="replace", index=False)
+claims_df.to_sql("claims", conn, if_exists="replace", index=False)
+
+# Now your load_tables() can safely query these tables
 
 
 @st.cache_resource
@@ -279,4 +298,5 @@ with tabs[3]:
             conn.commit()
             st.success("Claim recorded.")
 # ---------- end app.py ----------
+
 
