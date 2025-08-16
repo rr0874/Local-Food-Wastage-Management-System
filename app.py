@@ -10,7 +10,11 @@ import pandas as pd
 
 # Connect to SQLite
 conn = sqlite3.connect("food_wastage.db")
+import datetime
 
+date = st.date_input("Select Date", datetime.date.today())
+time = st.time_input("Select Time", datetime.datetime.now().time())
+ts = datetime.datetime.combine(date, time)
 # Load CSV files
 providers_df = pd.read_csv("providers_data.csv")
 receivers_df = pd.read_csv("receivers_data.csv")
@@ -297,6 +301,9 @@ with tabs[3]:
                          (int(food_id), int(receiver), status, str(ts)))
             conn.commit()
             st.success("Claim recorded.")
+  
+
 # ---------- end app.py ----------
+
 
 
