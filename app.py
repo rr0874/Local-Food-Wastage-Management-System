@@ -12,9 +12,7 @@ import pandas as pd
 conn = sqlite3.connect("food_wastage.db")
 import datetime
 
-date = st.date_input("Select Date", datetime.date.today())
-time = st.time_input("Select Time", datetime.datetime.now().time())
-ts = datetime.datetime.combine(date, time)
+
 # Load CSV files
 providers_df = pd.read_csv("providers_data.csv")
 receivers_df = pd.read_csv("receivers_data.csv")
@@ -295,7 +293,9 @@ with tabs[3]:
         food_id   = st.number_input("Food_ID", step=1)
         receiver  = st.selectbox("Receiver_ID", sorted(receivers_df["Receiver_ID"].tolist()))
         status    = st.selectbox("Status", ["Pending","Completed","Cancelled"])
-        ts        = st.datetime_input("Timestamp")
+        date = st.date_input("Select Date", datetime.date.today())
+        time = st.time_input("Select Time", datetime.datetime.now().time())
+        ts = datetime.datetime.combine(date, time)
         if st.form_submit_button("Submit Claim"):
             conn.execute("INSERT INTO claims (Food_ID, Receiver_ID, Status, Timestamp) VALUES (?,?,?,?)",
                          (int(food_id), int(receiver), status, str(ts)))
@@ -304,6 +304,7 @@ with tabs[3]:
   
 
 # ---------- end app.py ----------
+
 
 
 
